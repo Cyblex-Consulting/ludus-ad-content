@@ -1,0 +1,44 @@
+# Oragnizational Units
+
+- name: Create AD Organizational Units
+  microsoft.ad.ou:
+    name: "{{ ou.name}}"
+    path: "{{ ou.path}}"
+    state: present
+    protect_from_deletion: false
+    description: "{{ ou.description}}"
+  loop: "{{ ad.ous }}"
+  loop_control:
+    loop_var: ou
+  when: "ansible_system == 'Win32NT'"
+
+# Groups
+
+- name: Create AD Groups
+  microsoft.ad.group:
+    identity: "{{ group.name }}"
+    scope: "{{ group.scope }}"
+    path: "{{ group.path }}"
+    description: "{{ group.description }}"
+  loop: "{{ ad.groups }}"
+  loop_control:
+    loop_var: group
+  when: "ansible_system == 'Win32NT'"
+
+# Users
+
+- name: Create AD Users
+  microsoft.ad.user:
+    identity: "{{ user.name }}"
+    firstname: "{{ user.name }}"
+    surname: "{{ user.surname }}"
+    display_name: "{{ user.display_name }}"
+    password: "{{ user.password }}"
+    state: present
+    path: "{{ user.path }}"
+    groups:
+      set: "{{ user.groups }}"
+  loop: "{{ ad.users }}"
+  loop_control:
+    loop_var: user
+  when: "ansible_system == 'Win32NT'"
