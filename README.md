@@ -87,7 +87,7 @@ Available variables are listed below. There is no default values. Everything sha
       fqdn: myrange.corp
       role: primary-dc
     roles:
-      - ad-content
+      - ludus_ad_content
     role_vars:
       ludus_ad:
         ous:
