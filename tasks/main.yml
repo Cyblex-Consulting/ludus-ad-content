@@ -2,12 +2,12 @@
 
 - name: Create AD Organizational Units
   microsoft.ad.ou:
-    name: "{{ ou.name}}"
-    path: "{{ ou.path}}"
+    name: "{{ ou.name }}"
+    path: "{{ ou.path }}"
     state: present
     protect_from_deletion: false
-    description: "{{ ou.description}}"
-  loop: "{{ ad.ous }}"
+    description: "{{ ou.description }}"
+  loop: "{{ ludus_ad.ous }}"
   loop_control:
     loop_var: ou
   when: "ansible_system == 'Win32NT'"
@@ -20,7 +20,7 @@
     scope: "{{ group.scope }}"
     path: "{{ group.path }}"
     description: "{{ group.description }}"
-  loop: "{{ ad.groups }}"
+  loop: "{{ ludus_ad.groups }}"
   loop_control:
     loop_var: group
   when: "ansible_system == 'Win32NT'"
@@ -38,7 +38,7 @@
     path: "{{ user.path }}"
     groups:
       set: "{{ user.groups }}"
-  loop: "{{ ad.users }}"
+  loop: "{{ ludus_ad.users }}"
   loop_control:
     loop_var: user
   when: "ansible_system == 'Win32NT'"

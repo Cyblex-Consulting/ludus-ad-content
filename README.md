@@ -1,20 +1,77 @@
-Ludus Role: Active Directory content
-=========
+# Ansible Role: Active Directory content (Ludus)
 
-This is a role for Ludus that creates content in an Active Directory
+An Ansible Role that creates content in an Active Directory.
 
 The role performs the following actions:
 - Add Organizational Units
 - Add Groups
 - Add Users
 
+> [!WARNING]
+> This role shall be applied on the primary DC.
 
-Role Variables
---------------
+## Requirements
 
-There is no default values. Everything shall be configured in the range configuration.
+None.
 
-The role shall be applied on the primary DC and that would look like this in the range configuration:
+## Role Variables
+
+Available variables are listed below. There is no default values. Everything shall be configured in the range configuration.
+
+### Variables used when creating an Organizational Unit :
+
+    # OU Name
+    ludus_ad.ous.name: France
+
+    # OU Path
+    ludus_ad.ous.path: DC=myrange,DC=corp
+
+    # OU Description
+    ludus_ad.ous.description: jdoe
+
+### Variables used when creating an Group :
+
+    # Group Name
+    ludus_ad.groups.name: France
+
+    # Group Scope
+    ludus_ad.groups.scope: global
+
+    # Group Path
+    ludus_ad.groups.path: OU=France,DC=myrange,DC=corp
+    
+    # Group Description
+    ludus_ad.groups.description: jdoe
+
+### Variables used when creating a User :
+
+    # User Name
+    ludus_ad.users.name: France
+
+    # User First Name
+    ludus_ad.users.firstname: John
+
+    # User Surname
+    ludus_ad.users.surname: Doe
+
+    # User Display Name
+    ludus_ad.users.surname: display_name
+
+    # User Password
+    ludus_ad.users.password: GFVfPS432QkKN2YdQwJL
+
+    # User Path
+    ludus_ad.users.path: OU=France,DC=myrange,DC=corp
+    
+    # User Description
+    ludus_ad.users.description: IT System Administrator
+
+    # List of groups to add the user into
+    ludus_ad.users.groups: 
+      - Group 1
+      - Group 2
+
+## Example Ludus Range Config
 
 ```yaml
   - vm_name: "{{ range_id }}-DC-01"
@@ -30,9 +87,9 @@ The role shall be applied on the primary DC and that would look like this in the
       fqdn: myrange.corp
       role: primary-dc
     roles:
-      - ad-content
+      - ludus_ad_content
     role_vars:
-      ad:
+      ludus_ad:
         ous:
           - name: France
             path: DC=myrange,DC=corp
@@ -65,3 +122,11 @@ The role shall be applied on the primary DC and that would look like this in the
               - Domain Users
               - IT
 ```
+
+## License
+
+GPLv3
+
+## Author Information
+
+This role was created by [Cyblex Consulting](https://github.com/Cyblex-Consulting), for [Ludus](https://ludus.cloud/).
